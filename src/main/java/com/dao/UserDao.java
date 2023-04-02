@@ -1,10 +1,17 @@
 package com.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.bean.SignupBean;
+import com.bean.UserBean;
 
 @Repository
 public class UserDao {
@@ -27,5 +34,24 @@ public class UserDao {
 		stmt.update("insert into users (firstName,email,password) values (?,?,?)", sBean.getFirstName(),
 				sBean.getEmail(), sBean.getPassword());
 	}
+
+	public List<UserBean> getAllUsers() {
+
+		List<UserBean> users = stmt.query("select * from users", new BeanPropertyRowMapper<>(UserBean.class));
+		return users;
+	}
+
+//	class MyRowMapper implements RowMapper<UserBean> {
+//
+//		@Override
+//		public UserBean mapRow(ResultSet rs, int rowNum) throws SQLException {
+//			UserBean user = new UserBean();
+//			user.setFirstName(rs.getString("fname"));
+//			return user;
+//		}
+//
+//	}
+//user_id 
+	// userId
 
 }
